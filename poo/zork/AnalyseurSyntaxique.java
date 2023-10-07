@@ -2,12 +2,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-
 public class AnalyseurSyntaxique
 {
 	
 	private MotCleCommande commandes;
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public AnalyseurSyntaxique ()
 	{
@@ -16,9 +16,14 @@ public class AnalyseurSyntaxique
 		return;
 	}
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public MotCleCommande commandes () { return this.commandes; }
 
+	/* ----------------------------------------------------------------------------------------- */
+
+	public String [] commandesValides () { return this.commandes.commandesValides (); }
+	
 
 	public Commande recupereCommande ()
 	{
@@ -26,8 +31,7 @@ public class AnalyseurSyntaxique
 		String premierMot, deuxiemeMot;
 
 		System.out.print ( "> " );
-
-		BufferedReader reader = new BufferedReader( new InputStreamReader ( System.in ) );
+		BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
 
 		try { commande = reader.readLine (); }
 		catch ( java.io.IOException exception )
@@ -50,9 +54,8 @@ public class AnalyseurSyntaxique
 	public void afficherToutesLesCommandes ()
 	{
 		this.commandes.afficherToutesLesCommandes ();
+
+		return;
 	}
 
-
-
 }
-

@@ -29,6 +29,7 @@ public class Piece
 
 	public String description () { return this.description; }
 	public ObjetZork [] objets () { return this.objets; }
+	public ObjetZork objet (int indice) { return this.objets [indice]; }
 	public EnumMap < Direction, Piece > sorties () { return this.sorties; }
 
 	/* ----------------------------------------------------------------------------------------- */
@@ -51,16 +52,6 @@ public class Piece
 	{
 		return ( "Vous etes " + this.description + "." );
 	}
-	
-	public String descriptionSorties ()
-	{
-		String returnString = "Sorties :";
-
-		for ( Direction sortie : this.sorties.keySet () )
-			returnString = returnString + " " + sortie;
-		
-		return returnString;
-	}
 
 	public String descriptionObjets ()
 	{
@@ -74,10 +65,25 @@ public class Piece
 		
 		return returnString;
 	}
+
+	public String descriptionCapacite ()
+	{
+		return ( "Places restantes : " + ( this.objets.length - this.nbObjets () ) );
+	}
+	
+	public String descriptionSorties ()
+	{
+		String returnString = "Sorties :";
+
+		for ( Direction sortie : this.sorties.keySet () )
+			returnString = returnString + " " + sortie;
+		
+		return returnString;
+	}
 	
 	public String descriptionTotale ()
 	{
-		return ( this.desciptionLongue () + "\n" + this.descriptionObjets () + "\n" + this.descriptionSorties () );
+		return ( this.desciptionLongue () + "\n" + this.descriptionObjets () + "\n" + this.descriptionCapacite () + "\n" + this.descriptionSorties () );
 	}
 
 
@@ -89,6 +95,33 @@ public class Piece
 			if ( objet != null ) return false;
 
 		return true;
+	}
+
+	public int nbObjets ()
+	{
+		if ( this.objets == null ) return 0;
+
+		int compteur = 0;
+		for ( ObjetZork objet : this.objets )
+			if ( objet != null ) compteur += 1;
+
+		return compteur;
+	}
+
+	public void enleveObjet (int indice)
+	{
+		this.objets [indice] = null;
+
+		return;
+	}
+
+	public void ajouteObjet (ObjetZork objet)
+	{
+		for ( int indiceObjet = 0; indiceObjet < this.objets.length; indiceObjet ++ )
+			if ( this.objets [indiceObjet] == null )
+				{ this.objets [indiceObjet] = objet; return; }
+
+		return;
 	}
 
 

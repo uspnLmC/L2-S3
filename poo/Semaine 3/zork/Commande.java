@@ -6,6 +6,7 @@ public class Commande
 	private String premierMot;
 	private String deuxiemeMot;
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public Commande (String premierMot, String deuxiemeMot)
 	{
@@ -15,10 +16,12 @@ public class Commande
 		return;
 	}
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public String premierMot () { return this.premierMot; }
 	public String deuxiemeMot () { return this.deuxiemeMot; }
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public boolean estInconnue ()
 	{
@@ -29,6 +32,4 @@ public class Commande
 		return ( this.deuxiemeMot != null );
 	}
 
-
 }
-

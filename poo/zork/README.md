@@ -25,4 +25,5 @@ On peut maintenant ajouter un argument à la commande 'aide' afin d'obtenir des 
 
 ## Documentation
 Je n'ai pas encore fait la documentation du projet, si vous ne comprenez pas quelque chose, vous pouvez regardez sur la version du prof si ça peut aider.
+Je la ferai un jour si j'ai pas la flemme.
 

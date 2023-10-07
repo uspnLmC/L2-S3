@@ -3,18 +3,27 @@
 public class Jeu
 {
 
-	private AnalyseurSyntaxique analyseurSyntaxique;
+	private AnalyseurSyntaxique analyseur;
 	private Piece pieceActuelle;
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public Jeu ()
 	{
-		this.analyseurSyntaxique = new AnalyseurSyntaxique ();
-		creerPieces ();
+		this.analyseur = new AnalyseurSyntaxique ();
+		this.pieceActuelle = creerPieces ();
 
 		return;
 	}
-	public void creerPieces ()
+
+	/* ----------------------------------------------------------------------------------------- */
+
+	public AnalyseurSyntaxique analyseur () { return this.analyseur; }
+	public Piece pieceActuelle () { return this.pieceActuelle; }
+
+	/* ----------------------------------------------------------------------------------------- */
+
+	public Piece creerPieces ()
 	{
 		Piece dehors, salleTD, taverne, batimentC, bureau;
 
@@ -22,139 +31,43 @@ public class Jeu
 		salleTD = new Piece ( "dans une salle de TD dans le batiment G" );
 		taverne = new Piece ( "dans la taverne" );
 		batimentC = new Piece ( "dans le batiment C" );
-		bureau = new Piece ( "dans le secrétariat" );
+		bureau = new Piece ( "dans le secretariat" );
 
+		dehors.initialiseSorties (null, salleTD, batimentC, taverne);
+		salleTD.initialiseSorties(null, null, null, dehors);
+		taverne.initialiseSorties(null, dehors, null, null);
+		batimentC.initialiseSorties(dehors, bureau, null, null);
+		bureau.initialiseSorties(null, null, null, batimentC);
 
-		dehors.setSorties (null, salleTD, batimentC, taverne);
-		salleTD.setSorties (null, null, null, dehors);
-		taverne.setSorties (null, dehors, null, null);
-		batimentC.setSorties (dehors, bureau, null, null);
-		bureau.setSorties (null, null, null, batimentC);
-
-		
-		this.pieceActuelle = dehors;
-
-		return;
+		return dehors;
 	}
 
-
-	public AnalyseurSyntaxique analyseurSyntaxique () { return this.analyseurSyntaxique; }
-	public Piece pieceActuelle () { return this.pieceActuelle; }
-
-
-	public void jouer ()
-	{
-		this.afficherMessageDeBienvenue ();
-
-		boolean aQuitte = false;
-		while ( ! aQuitte )
-		{
-			System.out.println ();
-			Commande commande = this.analyseurSyntaxique.recupereCommande ();
-
-			aQuitte = this.traiterCommande (commande);
-		}
-
-		System.out.println ();
-		System.out.println ( "Merci d'avoir jouer. Au revoir." );
-		System.out.println ();
-
-		return;
-	}
 
 	public void afficherMessageDeBienvenue ()
 	{
 		System.out.println ();
-		System.out.println ( "Bienvennue dans le monde de Zork !" );
+		System.out.println ( "Bienvenue dans le monde de Zork !" );
 		System.out.println ( "Zork est un nouveau jeu d'aventure, terriblement enuyeux." );
 		System.out.println ( "Tapez 'aide' si vous avez besoin d'aide." );
 		System.out.println ();
-		System.out.println ( this.pieceActuelle.descriptionLongue () );
+		System.out.println ( this.pieceActuelle.descriptionTotale () );
 		
 		return;
 	}
 
-
-	public boolean traiterCommande (Commande commande)
-	{
-		if ( commande.estInconnue () )
-		{
-			System.out.println ( "Je ne comprends pas ce que vous voulez..." );
-
-			return false;
-		}
-
-		String premierMot = commande.premierMot ();
-
-		if ( premierMot.equals ( "aide" ) )
-			{ this.afficherAide ( commande ); return false; }
-		
-
-		if ( premierMot.equals ( "piece" ) )
-			{ this.commandesPiece ( commande ); return false; }
-		
-
-		if ( premierMot.equals ( "aller" ) )
-			{ this.deplacerVersAutrePiece ( commande ); return false; }
-		
-
-		if ( ! premierMot.equals ( "quitter" ))
-			{ System.out.println ( "Ceci n'est pas une commande." ); return false; }
-
-
-		if ( ! commande.aDeuxiemeMot () )
-			return true;
-		
-		
-		System.out.println ( "Quitter quoi ?" );
-
-		return false;
-	}
-
-
-	public void afficherAide ( Commande commande )
-	{
-		if ( ! commande.aDeuxiemeMot () )
-			{ this.afficherAideGeneral (); return; }
-
-
-		String deuxiemeMot = commande.deuxiemeMot ();
-
-		if ( deuxiemeMot.equals ( "aide" ) )
-			{ System.out.println ( "La commande aide est assez simple pour que tu la comprennes sans avoir besoin d'aide je pense." ); return; }
-
-		if ( deuxiemeMot.equals ( "piece" ) )
-			{ this.afficherAidePiece (); return; }
-		
-		
-		if ( deuxiemeMot.equals ( "aller" ) )
-			{ this.afficherAideAller (); return; }
-		
-
-		if ( deuxiemeMot.equals ( "quitter" ) )
-			{ this.afficherAideQuitter (); return; }
-		
-		
-		System.out.println ( "Je sais pas quelle aide tu veux voir donc je te montre les commandes que tu peux faire." );
-		this.afficherAideGeneral ();
-
-		return;
-	}
-	
 	public void afficherAideGeneral ()
 	{
 		System.out.println ( "Vous vous trouvez sur le campus de l'USPN." );
 		System.out.println ();
 		
 		System.out.println ( "Les commandes reconnues sont :" );
-		this.analyseurSyntaxique.afficherToutesLesCommandes ();
+		this.analyseur.afficherToutesLesCommandes ();
 		System.out.println ();
 
-		System.out.println ( "Si vous voulez en savoir plus sur une des commandes, tapez 'aide' puis la commande" );
+		System.out.println ( "Si vous voulez en savoir plus sur une commande, tapez 'aide' puis la commande" );
 
 		return;
 	}
-
 
 	public void afficherAidePiece ()
 	{
@@ -168,35 +81,9 @@ public class Jeu
 		return;
 	}
 
-	public void commandesPiece (Commande commande)
-	{
-		if ( ! commande.aDeuxiemeMot () )
-			{ this.afficherAidePiece (); return; }
-		
-		String deuxiemeMot = commande.deuxiemeMot ();
-
-		if ( deuxiemeMot.equals ( "description" ) )
-			{ System.out.println ( this.pieceActuelle.description () ); return; }
-		
-		if ( deuxiemeMot.equals ( "sorties" ) )
-			{ System.out.println ( this.pieceActuelle.descriptionSorties () ); return; }
-		
-		if ( deuxiemeMot.equals ( "tout" ) )
-		{
-			System.out.println ( this.pieceActuelle.descriptionLongue () );
-
-			return;
-		}
-		
-		this.afficherAidePiece ();
-		
-		return;
-	}
-
-
 	public void afficherAideAller ()
 	{
-		System.out.println ( "La commande 'aller' permet de se déplacer en dehors de votre piece actuelle." );
+		System.out.println ( "La commande 'aller' permet de se deplacer en dehors de votre piece actuelle." );
 		System.out.println ();
 
 		System.out.println ( "Elle peut prendre l'ensemble des directions en argument," );
@@ -204,48 +91,16 @@ public class Jeu
 		System.out.println ();
 		
 		
-		System.out.println ( "Pour connaître les directions où vous pouvez vous déplacer, utilisez la commande 'piece sorties'" );
+		System.out.println ( "Pour connaitre les directions ou vous pouvez vous deplacer," );
+		System.out.println ( "\tutilisez la commande 'piece sorties'." );
 
 		return;
 	}
-
-	public void deplacerVersAutrePiece (Commande commande)
-	{
-		if ( ! commande.aDeuxiemeMot () )
-			{ this.afficherAideAller (); return; }
-		
-
-		String stringDirection = commande.deuxiemeMot ();
-		Direction direction = null;
-
-		try { direction = Direction.valueOf (stringDirection); }
-		catch (IllegalArgumentException exception)
-		{
-			System.out.println ( "Pour indiquer une direction entrez une des chaines de caractères suivantes :" );
-
-			for ( Direction valeurDirection : Direction.values () )
-				System.out.println ( "-> \"" + valeurDirection + "\"" );
-			
-			return;
-		}
-
-		Piece pieceSuivante = this.pieceActuelle.pieceSuivante (direction);
-
-		if ( pieceSuivante == null )
-			System.out.println ( "Il n'y a pas de porte dans cette direction !" );
-		else
-		{
-			this.pieceActuelle = pieceSuivante;
-			System.out.println ( this.pieceActuelle.descriptionLongue () );
-		}
-
-		return;
-	}
-
 
 	public void afficherAideQuitter ()
 	{
-		System.out.println ( "La commande 'quitter' permet de quitter le jeu (ne le faites pas et restez vous amusez avec moi)." );
+		System.out.println ( "La commande 'quitter' permet de quitter le jeu" );
+		System.out.println ( "\tne le faites pas et restez vous amusez avec moi)." );
 		System.out.println ();
 
 		System.out.println ( "Il ne faut pas ajouter d'arguments pour la faire fonctionner." );
@@ -254,6 +109,143 @@ public class Jeu
 	}
 
 
+	public void jouer ()
+	{
+		this.afficherMessageDeBienvenue ();
+
+		boolean aQuitteLeJeu = false;
+		while ( ! aQuitteLeJeu )
+		{
+			System.out.println ();
+			Commande commande = this.analyseur.recupereCommande ();
+
+			aQuitteLeJeu = this.traiterCommande (commande);
+		}
+
+		System.out.println ();
+		System.out.println ( "Merci d'avoir jouer. Au revoir." );
+		System.out.println ();
+
+		return;
+	}
+
+	public boolean traiterCommande (Commande commande)
+	{
+		if ( commande.estInconnue () )
+		{
+			System.out.println ( "Je ne comprends pas ce que vous voulez..." );
+
+			return false;
+		}
+
+		String premierMot = commande.premierMot ();
+
+		if ( premierMot.equals ( "aide" ) )
+			{ this.afficherAide (commande); return false; }
+		
+		
+		if ( premierMot.equals ( "piece" ) )
+			{ this.commandesPieces (commande); return false; }
+		
+		
+		if ( premierMot.equals ( "aller" ) )
+			{ this.deplacerVersAutrePiece (commande); return false; }
+		
+
+		if ( ! premierMot.equals ( "quitter" ) )
+			{ System.out.println ( "Ceci n'est pas une commande" ); return false; }
+		
+		
+		if ( ! commande.aDeuxiemeMot () ) return true;
+
+
+		System.out.println ( "Quitter quoi ?" );
+
+		return false;
+	}
+
+
+	public void afficherAide (Commande commande)
+	{
+		if ( ! commande.aDeuxiemeMot () )
+			{ this.afficherAideGeneral (); return; }
+
+		String deuxiemeMot = commande.deuxiemeMot ();
+
+		if ( deuxiemeMot.equals ( "aide" ) )
+			{ System.out.println ( "La commande 'aide' est assez simple pour que tu la comprennes par toi-meme" ); return; }
+
+		
+		if ( deuxiemeMot.equals ( "piece" ) )
+			{ this.afficherAidePiece (); return; }
+		
+		
+		if ( deuxiemeMot.equals ( "aller" ) )
+			{ this.afficherAideAller (); return; }
+		
+		
+		if ( deuxiemeMot.equals ( "quitter" ) )
+			{ this.afficherAideQuitter (); return; }
+
+
+		System.out.println ( "Je ne sais pas quelle aide tu demandes, donc voici l'aide general :" );
+		this.afficherAideGeneral ();
+
+		return;
+	}
+
+
+	public void commandesPieces (Commande commande)
+	{
+		if ( ! commande.aDeuxiemeMot () )
+			{ this.afficherAidePiece (); return; }
+		
+		String deuxiemeMot = commande.deuxiemeMot ();
+
+		if ( deuxiemeMot.equals ( "description" ) )
+			{ System.out.println ( this.pieceActuelle.desciptionLongue () ); return; }
+		
+		if ( deuxiemeMot.equals ( "sorties" ) )
+			{ System.out.println ( this.pieceActuelle.descriptionSorties () ); return; }
+		
+		if ( deuxiemeMot.equals ( "tout" ) )
+			{ System.out.println ( this.pieceActuelle.descriptionTotale () ); return; }
+		
+
+		this.afficherAidePiece ();
+
+		return;
+	}
+
+
+	public void deplacerVersAutrePiece (Commande commande)
+	{
+		if ( ! commande.aDeuxiemeMot () )
+			{ this.afficherAideAller (); return; }
+
+		String stringDirection = commande.deuxiemeMot ();
+		Direction direction = null;
+
+		try { direction = Direction.valueOf (stringDirection); }
+		catch ( IllegalArgumentException exception )
+		{
+			System.out.println ( "Pour indiquer une direction, entrez une des chaines de caracteres suivantes :" );
+
+			for ( Direction directionPossible : Direction.values () )
+				System.out.println ( "-> \"" + directionPossible + "\"" );
+
+			return;
+		}
+
+		Piece pieceSuivante = this.pieceActuelle.pieceSuivante (direction);
+
+		if ( pieceSuivante == null )
+			{ System.out.println ( "Il n'y a pas de piece dans cette direction !" ); return; }
+		
+		this.pieceActuelle = pieceSuivante;
+		System.out.println ( this.pieceActuelle.descriptionTotale () );
+
+		return;
+	}
 
 }
-

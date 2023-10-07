@@ -29,6 +29,34 @@ public class ObjetZork
 
 	/* ----------------------------------------------------------------------------------------- */
 
+	public boolean equals (ObjetZork objet)
+	{
+		if ( this.nom.equals ( objet.nom ) ) return false;
+		
+		if ( this.description.equals ( objet.description ) ) return false;
+
+		if ( this.poids != objet.poids ) return false;
+
+		if ( this.transportable != objet.transportable ) return false;
+
+		return true;
+	}
+
+	public int hashCode ()
+	{
+		int hash = 0;
+
+		hash += this.nom.hashCode ();
+		hash += this.description.hashCode ();
+
+		hash += this.poids;
+		hash += ( this.transportable ) ? 1 : 0;
+
+		return hash;
+	}
+
+	/* ----------------------------------------------------------------------------------------- */
+
 	public String nom_poids (String espace)
 	{
 		return ( this.nom + espace + this.poids );

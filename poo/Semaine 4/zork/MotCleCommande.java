@@ -5,8 +5,8 @@ public class MotCleCommande
 	private final static String [] commandesValides =
 		{
 			"aide",
-			"piece",
-			"aller",
+			"piece", "joueur",
+			"aller", "prendre", "poser",
 			"quitter"
 		};
 	

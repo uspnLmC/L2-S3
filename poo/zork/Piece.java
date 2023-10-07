@@ -1,6 +1,4 @@
-import java.util.Map;
 import java.util.EnumMap;
-
 
 public class Piece
 {
@@ -8,6 +6,7 @@ public class Piece
 	private String description;
 	private EnumMap < Direction, Piece > sorties;
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public Piece (String description)
 	{
@@ -16,39 +15,44 @@ public class Piece
 
 		return;
 	}
-	public void setSorties (Piece nord, Piece est, Piece sud, Piece ouest)
-	{
-		if ( nord != null ) 
-			this.sorties.put ( Direction.NORD, nord );
-		
-		if ( est != null )
-			this.sorties.put ( Direction.EST, est );
-		
-		if ( sud != null )
-			this.sorties.put ( Direction.SUD, sud );
-		
-		if ( ouest != null )
-			this.sorties.put ( Direction.OUEST, ouest );
-		
-		return;
-	}
 
+	/* ----------------------------------------------------------------------------------------- */
 
 	public String description () { return this.description; }
 	public EnumMap < Direction, Piece > sorties () { return this.sorties; }
 
-	public String descriptionLongue ()
+	/* ----------------------------------------------------------------------------------------- */
+
+	public void initialiseSorties (Piece nord, Piece est, Piece sud, Piece ouest)
 	{
-		return ( "Vous etes " + this.description + ".\n" + this.descriptionSorties () );
+		if ( nord != null ) this.sorties.put ( Direction.NORD, nord );
+		
+		if ( est != null ) this.sorties.put ( Direction.EST, est );
+		
+		if ( sud != null ) this.sorties.put ( Direction.SUD, sud );
+
+		if ( ouest != null ) this.sorties.put ( Direction.OUEST, ouest );
+
+		return;
+	}
+
+
+	public String desciptionLongue ()
+	{
+		return ( "Vous etes " + this.description + "." );
 	}
 	public String descriptionSorties ()
 	{
 		String returnString = "Sorties :";
-		
+
 		for ( Direction sortie : this.sorties.keySet () )
-			returnString += ( " " + sortie );
+			returnString = returnString + " " + sortie;
 		
 		return returnString;
+	}
+	public String descriptionTotale ()
+	{
+		return ( this.desciptionLongue () + "\n" + this.descriptionSorties () );
 	}
 
 
@@ -57,6 +61,4 @@ public class Piece
 		return ( this.sorties.get (direction) );
 	}
 
-	
 }
-
