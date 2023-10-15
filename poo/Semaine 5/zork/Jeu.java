@@ -1,4 +1,4 @@
-//	Semaine_4
+//	Semaine_5
 
 
 /**										<p> MODIFICATION !!! </p>
@@ -15,7 +15,7 @@
  * 	</p>
  * 
  * 	@author		LemilCa
- * 	@version	Semaine_4 from Semaine_3
+ * 	@version	Semaine_5 from Semaine_4
  */
 public class Jeu
 {
@@ -28,7 +28,7 @@ public class Jeu
 
     /* ------------------------------------- Constructeurs ------------------------------------- */
 
-	/**									<p> NE PLUS UTILISER !!! </p>
+	/**
 	 * 	Cree le jeu et initialise la carte du jeu.
 	 */
     public Jeu ()
@@ -39,7 +39,7 @@ public class Jeu
         return;
     }
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Cree le jeu avec un joueur specifie.
 	 * 
 	 * 	@param joueur	Joueur
@@ -95,17 +95,17 @@ public class Jeu
 		ObjetZork ordi    = new ObjetZork ( "Ordinateur", "Tu peux y jouer a Zork"       , 4  , true  );
 		ObjetZork tableau = new ObjetZork ( "Tableau"   , "Tu peux y dessiner des choses", 7  , false );
 
-		ObjetZork [] objetsDehors    = new ObjetZork [] { arbre, arbre, pain   , null   , null, null             };
-		ObjetZork [] objetsSalleTD   = new ObjetZork [] { table, table, ordi   , tableau, pain, null, null, null };
-		ObjetZork [] objetsTaverne   = new ObjetZork [] { pain , table, pain   , table  , pain, ordi             };
-		ObjetZork [] objetsBatimentC = new ObjetZork [] { table, table, ordi   , pain                            };
-		ObjetZork [] objetsBureau    = new ObjetZork [] { table, ordi , tableau, arbre  , null, null             };
+		Piece dehors    = new Piece ( "devant le batiment C"                   , 6 );
+		Piece salleTD   = new Piece ( "dans une salle de TD dans le batiment G", 8 );
+		Piece taverne   = new Piece ( "dans la taverne"                        , 6 );
+		Piece batimentC = new Piece ( "dans le batiment C"                     , 4 );
+		Piece bureau    = new Piece ( "dans le secretariat"                    , 6 );
 
-		Piece dehors    = new Piece ( "devant le batiment C"                   , objetsDehors    );
-		Piece salleTD   = new Piece ( "dans une salle de TD dans le batiment G", objetsSalleTD   );
-		Piece taverne   = new Piece ( "dans la taverne"                        , objetsTaverne   );
-		Piece batimentC = new Piece ( "dans le batiment C"                     , objetsBatimentC );
-		Piece bureau    = new Piece ( "dans le secretariat"                    , objetsBureau    );
+		dehors.initialiserObjets    ( arbre, arbre, pain                         );
+		salleTD.initialiserObjets   ( table, table, ordi   , tableau, pain       );
+		taverne.initialiserObjets   ( pain , table, pain   , table  , pain, ordi );
+		batimentC.initialiserObjets ( table, table, ordi   , pain                );
+		bureau.initialiserObjets    ( table, ordi , tableau, arbre               );
 
 		dehors.initialiserSorties    ( null  , salleTD, batimentC, taverne   );
 		salleTD.initialiserSorties   ( null  , null   , null     , dehors    );
@@ -154,7 +154,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> MODIFICATION !!! </p>
+	/**	
 	 * 	Affiche l'aide des pieces.
 	 */
     public void afficherAidePiece ()
@@ -172,7 +172,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Afficher l'aide du joueur
 	 */
 	public void afficherAideJoueur ()
@@ -209,7 +209,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Affiche l'aide pour prendre un objet.
 	 */
 	public void afficherAidePrendre ()
@@ -230,7 +230,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Affiche l'aide pour poser un objet.
 	 */
     public void afficherAidePoser ()
@@ -291,7 +291,7 @@ public class Jeu
 	}
 
 
-	/**									<p> MODIFICATION !!! </p>
+	/**	
 	 * 	Execute la commande specifiee.
 	 * 
 	 * 	@param 	commande 	(String) la commande a executer
@@ -338,7 +338,7 @@ public class Jeu
 	}
 
 
-	/**									<p> MODIFICATION !!! </p>
+	/**	
 	 * 	Execute la commande 'aide' en fonction du parametre.
 	 * 	<ul>
 	 * 		<li> 'aide'    : affiche un texte de base </li>
@@ -392,7 +392,7 @@ public class Jeu
 	}
 
 
-	/**									<p> MODIFICATION !!! </p>
+	/**	
 	 * 	Execute la commande 'piece' en fonction du parametre.
 	 * 	<ul>
 	 * 		<li> 'description' : affiche la description de la piece actuelle. </li>
@@ -433,7 +433,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Execute la commande 'joueur' en fonction du parametre.
 	 * 	<ul>
 	 * 		<li> 'pseudo'     : affiche le pseudo du joueur. </li>
@@ -510,7 +510,7 @@ public class Jeu
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Execute la commande 'prendre' en fonction du parametre.
 	 * 	<p>
 	 * 		Si le parametre est le nom d'un objet present dans la piece, que l'objet est transportable et si le joueur a la capacite de le prendre : joueur recupere l'objet
@@ -525,29 +525,25 @@ public class Jeu
 			{ this.afficherAidePrendre (); return; }
 
 		String parametreObjet = commande.motParametre ();
-		int indiceJoueur      = this.joueur.inventaireIndicePremierNull ();
-
-		if ( indiceJoueur < 0 )
-			{ System.out.println ( "Vous ne pouvez pas prendre l'objet : " + parametreObjet ); return; }
-
-		ObjetZork objet = null;
-		int indicePiece = -1;
+		ObjetZork objet       = null;
+		int indice            = 0;
 
 		boolean pasTrouve = true;
-		while ( indicePiece < this.pieceActuelle.objetsCapaciteTotale () && pasTrouve )
+		while ( indice < this.pieceActuelle.objetsCapaciteActuelle () && pasTrouve )
 		{
-			indicePiece += 1;
-			objet = this.pieceActuelle.objet (indicePiece);
+			objet = this.pieceActuelle.objet (indice);
 
-			if ( objet != null && parametreObjet.equals ( objet.nom () ) && objet.estTransportable () )
+			if ( parametreObjet.equals ( objet.nom () ) && objet.estTransportable () )
 				if ( this.joueur.capaciteTransport () - objet.poids () >= 0 ) pasTrouve = false;
+			
+			if ( pasTrouve ) indice += 1;
 		}
 
 		if ( pasTrouve )
 			{ System.out.println ( "Vous ne pouvez pas prendre l'objet : " + parametreObjet ); return; }
 
-		this.joueur.ajouterObjet        (indiceJoueur, objet);
-		this.pieceActuelle.retirerObjet (indicePiece        );
+		this.joueur.ajouterObjet        (      objet);
+		this.pieceActuelle.retirerObjet (indice     );
 
 		System.out.println ( "Vous avez pris l'objet : " + parametreObjet );
 
@@ -569,28 +565,23 @@ public class Jeu
 			{ this.afficherAidePrendre (); return; }
 
 		String parametreObjet = commande.motParametre ();
-		int indicePiece       = this.pieceActuelle.objetsIndicePremierNull ();
-
-		if ( indicePiece < 0 )
-			{ System.out.println ( "Vous ne pouvez pas poser l'objet : " + parametreObjet ); return; }
-
-		ObjetZork objet  = null;
-		int indiceJoueur = -1;
+		ObjetZork objet       = null;
+		int indice            = 0;
 
 		boolean pasTrouve = true;
-		while ( indiceJoueur < this.joueur.inventaireCapaciteTotale () && pasTrouve )
+		while ( indice < this.joueur.inventaireCapaciteActuelle () && pasTrouve )
 		{
-			indiceJoueur += 1;
-			objet = this.joueur.objet (indiceJoueur);
+			objet = this.joueur.objet (indice);
 
-			if ( objet != null && parametreObjet.equals ( objet.nom () ) ) pasTrouve = false;
+			if ( parametreObjet.equals ( objet.nom () ) ) pasTrouve = false;
+			else indice += 1;
 		}
 
 		if ( pasTrouve )
 			{ System.out.println ( "Vous ne pouvez pas poser l'objet : " + parametreObjet ); return; }
 
-		this.pieceActuelle.ajouterObjet (indicePiece , objet);
-		this.joueur.retirerObjet        (indiceJoueur, objet);
+		this.pieceActuelle.ajouterObjet (        objet);
+		this.joueur.retirerObjet        (indice, objet);
 
 		System.out.println ( "Vous avez pose l'objet : " + parametreObjet );
 

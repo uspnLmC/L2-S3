@@ -1,7 +1,7 @@
-//	Base ; Semaine_3
+//	Semaine_4 ; Semaine_5
 
 
-/**
+/**	
  * 	Cette classe fait partie du logiciel Zork, un jeu d'aventure simple en mode texte.
  * 
  * 	<p>
@@ -10,13 +10,13 @@
  * 	</p>
  * 
  * 	@author		LemilCa
- * 	@version	Base
+ * 	@version	Semaine_4 from Base
  */
 public class MotCleCommande
 {
     /* ---------------------------------- Arguments constants ---------------------------------- */
 
-	/**
+	/**	
 	 * 	Un tableau non modifiable contenant les différentes commandes.
 	 * 	<ul>
 	 * 		<li> ligne 1 : aide </li>
@@ -26,9 +26,9 @@ public class MotCleCommande
 	 * 	</ul>
 	 */
     private final static String [] CommandesValides = {
-        "aide"   ,
-        "piece"  ,
-        "aller"  ,
+        "aide",
+        "piece"  , "joueur" ,
+        "aller"  , "prendre", "poser",
         "quitter"
     };
 

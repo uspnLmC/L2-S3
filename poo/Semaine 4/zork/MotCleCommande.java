@@ -1,42 +1,94 @@
+//	Semaine_4 ; Semaine_5
 
 
+/**										<p> MODIFICATION !!! </p>
+ * 	Cette classe fait partie du logiciel Zork, un jeu d'aventure simple en mode texte.
+ * 
+ * 	<p>
+ * 		Cette classe repertorie l'ensemble des mots cle utilisables comme commandes dans le jeu.
+ * 		Elle est utilisee pour verifier la validite des commandes de l'utilisateur.
+ * 	</p>
+ * 
+ * 	@author		LemilCa
+ * 	@version	Semaine_4 from Base
+ */
 public class MotCleCommande
 {
-	private final static String [] commandesValides =
-		{
-			"aide",
-			"piece", "joueur",
-			"aller", "prendre", "poser",
-			"quitter"
-		};
-	
-	/* ----------------------------------------------------------------------------------------- */
+    /* ---------------------------------- Arguments constants ---------------------------------- */
 
-	public MotCleCommande () { return; }
-	
-	/* ----------------------------------------------------------------------------------------- */
-
-	public String [] commandesValides () { return commandesValides; }
-
-	/* ----------------------------------------------------------------------------------------- */
-
-	public boolean estCommande (String string)
-	{
-		for ( String commandeValide : commandesValides )
-			if ( commandeValide.equals (string) ) return true;
-		
-		return false;
-	}
+	/**									<p> MODIFICATION !!! </p>
+	 * 	Un tableau non modifiable contenant les différentes commandes.
+	 * 	<ul>
+	 * 		<li> ligne 1 : aide </li>
+	 * 		<li> ligne 2 : informations </li>
+	 * 		<li> ligne 3 : actions </li>
+	 * 		<li> ligne 4 : quitter </li>
+	 * 	</ul>
+	 */
+    private final static String [] CommandesValides = {
+        "aide",
+        "piece"  , "joueur" ,
+        "aller"  , "prendre", "poser",
+        "quitter"
+    };
 
 
-	public void afficherToutesLesCommandes ()
-	{
-		for ( String commandeValide : commandesValides )
-			System.out.print ( commandeValide + " " );
-		
-		System.out.println ();
+    /* ------------------------------------- Constructeurs ------------------------------------- */
 
-		return;
-	}
+	/**
+	 * 	Initialise la liste des mots cle utilisables comme commande.
+	 */
+    public MotCleCommande ()
+    {
+        return;
+    }
+
+
+    /* ------------------------------------------ Get ------------------------------------------ */
+
+	/**
+	 * 	Renvoie l'argument 'CommandesValides'.
+	 * 
+	 * 	@return			String []
+	 */
+    public String [] CommandesValides () { return CommandesValides; }
+
+
+    /* ---------------------------------------- Méthodes --------------------------------------- */
+
+	/**
+	 * 	Teste si le string specifie est un mot cle valide.
+	 * 
+	 * 	@param commande		(String)
+	 * 
+	 * 	@return				boolean : 'true' si commande valide ; 'false' sinon
+	 */
+    public boolean estCommande (String commande)
+    {
+        for ( String commandeValide : CommandesValides )
+            if ( commandeValide.equals (commande) ) return true;
+
+        return false;
+    }
+
+                        /* -------------------------------------------- */
+
+	/**
+	 * 	Affiche la liste de toutes les commandes reconnues par le jeu.
+	 */
+    public void afficherCommandes ()
+    {
+        String aAfficher = "";
+
+        for ( String commandeValide : CommandesValides )
+            aAfficher += ( commandeValide + " " );
+
+        System.out.println (aAfficher);
+
+        return;
+    }
+
 
 }
+
+

@@ -18,12 +18,11 @@ On peut maintenant ajouter un argument à la commande 'aide' afin d'obtenir des 
 
 
 ## Ajout de la commande 'piece'
-- elle permet de connaitre les informations relatives à la pièce actuelle
-- on peut afficher soit sa description, soit ses sorties, soit les deux
+- Elle permet de connaitre les informations relatives à la pièce actuelle
+- On peut afficher soit sa description, soit ses sorties, soit les deux
 
 ---
 
 ## Documentation
-Je n'ai pas encore fait la documentation du projet, si vous ne comprenez pas quelque chose, vous pouvez regardez sur la version du prof si ça peut aider.
-Je la ferai un jour si j'ai pas la flemme.
+Fait
 

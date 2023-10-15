@@ -1,7 +1,7 @@
 //	Semaine_4 ; Semaine_5
 
 
-/**										<p> MODIFICATION !!! </p>
+/** 
  * 	Cette classe fait partie du logiciel Zork, un jeu d'aventure simple en mode texte.
  * 
  * 	<p>
@@ -76,7 +76,7 @@ public class ObjetZork
 
     /* ---------------------------------------- Méthodes --------------------------------------- */
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Teste si cet objet est le même que l'objet specifie.
 	 * 
 	 * 	@param objet	(ObjetZork)
@@ -98,7 +98,7 @@ public class ObjetZork
 		return true;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Renvoie le hashCode de cet objet.
 	 * 
 	 * 	@return			int

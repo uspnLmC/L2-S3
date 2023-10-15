@@ -1,5 +1,6 @@
-//	Semaine_4
+//	Semaine_5
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 
 
@@ -13,14 +14,15 @@ import java.util.EnumMap;
  * 	</p>
  * 
  * 	@author		LemilCa
- * 	@version	Semaine_4 from Semaine_3
+ * 	@version	Semaine_5 from Semaine_4
  */
 public class Piece
 {
     /* -------------------------------- Arguments non constants -------------------------------- */
 
     private String                       description;
-	private ObjetZork []                 objets;
+	private int                          capaciteMax;
+	private ArrayList < ObjetZork >      objets;
     private EnumMap < Direction, Piece > sorties;
 
 
@@ -39,16 +41,17 @@ public class Piece
         return;
     }
 
-	/**	
-	 * 	Initialise une piece decrite par le string et le tableau d'objetZork specifies.
+	/**									<p> MODIFICATION !!! </p>
+	 * 	Initialise une piece decrite par le string et le int specifies.
 	 * 
 	 * 	@param description		(String)
-	 * 	@param objets			(ObjetZork []) : si null, tableau ObjetZork de taille 10 vide
+	 * 	@param capaciteMax		(int) : si negatif, 10
 	 */
-	public Piece (String description, ObjetZork [] objets)
+	public Piece (String description, int capaciteMax)
 	{
 		this.description = description;
-		this.objets      = ( objets != null ) ? objets : new ObjetZork [10];
+		this.capaciteMax = ( capaciteMax >= 0 ) ? (capaciteMax) : (10);
+		this.objets      = new ArrayList < ObjetZork > (capaciteMax);
 		this.sorties     = new EnumMap < Direction, Piece > ( Direction.class );
 
 		return;
@@ -64,12 +67,19 @@ public class Piece
 	 */
     public String description () { return this.description; }
 
-	/**	
+	/**									<p> AJOUT !!! </p>
+	 * 	Renvoie l'argument 'capaciteMax'.
+	 * 
+	 * 	@return			int
+	 */
+	public int capaciteMax () { return this.capaciteMax; }
+	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie l'argument 'objets'.
 	 * 
-	 * 	@return			ObjetZork []
+	 * 	@return			ArrayList < ObjetZork >
 	 */
-	public ObjetZork [] objets () { return this.objets; }
+	public ArrayList < ObjetZork > objets () { return this.objets; }
 
 	/**
 	 * 	Renvoie l'argument 'sorties'.
@@ -91,27 +101,24 @@ public class Piece
         return ( "Vous etes " + this.description + "." );
     }
 
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie la description des objets de cette piece.
 	 * 
 	 * 	@return			String : si objets vide, renvoie "Pas d'objets"
 	 */
 	public String descriptionObjets ()
 	{
+		if ( this.objets.size () == 0 ) return ("Pas d'objets");
+
 		String descriptionObjets = "Objets : ";
-		boolean auMoinsUnPasNull = false;
 
 		for ( ObjetZork objet : this.objets )
-			if ( objet != null )
-			{
-				auMoinsUnPasNull = true;
-				descriptionObjets += ( "\n\t- " + objet.descriptionGlobale () );
-			}
+			descriptionObjets += ( "\n\t- " + objet.descriptionGlobale () );
 		
-		return (auMoinsUnPasNull) ? (descriptionObjets) : ("Pas d'objets");
+		return descriptionObjets;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**	
 	 * 	Renvoie la description de la capacite de cette piece.
 	 * 
 	 * 	@return			String : si objets plein, renvoie "Il n'y a plus de place dans la piece."
@@ -139,7 +146,7 @@ public class Piece
     }
 
 
-	/**									<p> MODIFICATION !!! </p>
+	/**	
 	 * 	Renvoie la description globale de cette piece.
 	 * 
 	 * 	@return			String
@@ -148,23 +155,37 @@ public class Piece
     {
         String descriptionGlobale = "";
 
-        descriptionGlobale += ( this.descriptionLongue   () + "\n" );
-		descriptionGlobale += ( this.descriptionObjets   () + "\n" );
+        descriptionGlobale += ( this.descriptionLongue  () + "\n" );
+		descriptionGlobale += ( this.descriptionObjets () + "\n" );
 		descriptionGlobale += ( this.descriptionCapacite () + "\n" );
-        descriptionGlobale += ( this.descriptionSorties  () );
+        descriptionGlobale += ( this.descriptionSorties () );
 
         return descriptionGlobale;
     }
 
     					/* -------------------------------------------- */
     
+	/**									<p> AJOUT !!! </p>
+	 * 	Definie les objets de cette piece.
+	 * 
+	 * 	@param objets	(ObjetZork [])
+	 */
+	public void initialiserObjets (ObjetZork ... objets)
+	{
+		int indice = 0;
+		while ( indice < this.capaciteMax && indice < objets.length )
+			{ this.objets.add (objets [indice]); indice += 1; }
+
+		return;
+	}
+
 	/**
 	 * 	Definie les sorties de cette piece.
 	 * 
-	 * 	@param nord		Piece
-	 * 	@param est		Piece
-	 * 	@param sud		Piece
-	 * 	@param ouest	Piece
+	 * 	@param nord		(Piece)
+	 * 	@param est		(Piece)
+	 * 	@param sud		(Piece)
+	 * 	@param ouest	(Piece)
 	 */
     public void initialiserSorties (Piece nord, Piece est, Piece sud, Piece ouest)
     {
@@ -181,7 +202,7 @@ public class Piece
 
     					/* -------------------------------------------- */
     
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie l'objet situe au int specifie dans le tableau d'objet de cette piece.
 	 * 
 	 * 	@param indice	(int) : incorrect si < 0 ou >= taille 'objets'
@@ -190,70 +211,57 @@ public class Piece
 	 */
 	public ObjetZork objet (int indice)
 	{
-		return ( indice >= 0 && indice < this.objets.length ) ? ( this.objets [indice] ) : (null);
+		return ( indice >= 0 && indice < this.objets.size () ) ? ( this.objets.get (indice) ) : (null);
 	}
 
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie la capacite totale du tableau d'objet de cette piece.
 	 * 
 	 * 	@return			int
 	 */
 	public int objetsCapaciteTotale ()
 	{
-		return ( this.objets.length );
+		return ( this.capaciteMax );
 	}
 
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie le nombre d'objets presents dans cette piece.
 	 * 
 	 * 	@return			int
 	 */
 	public int objetsCapaciteActuelle ()
 	{
-		int compteur = 0;
-		for ( ObjetZork objet : this.objets )
-			if ( objet != null ) compteur += 1;
-		
-		return compteur;
+		return ( this.objets.size () );
 	}
 
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Teste si cette piece est remplie.
 	 * 
 	 * 	@return			boolean : 'false' si une place de vide, 'true' sinon
 	 */
 	public boolean objetsEstPlein ()
 	{
-		for ( ObjetZork objet : this.objets )
-			if ( objet == null ) return false;
-		
-		return true;
+		return ( this.capaciteMax == this.objets.size () );
 	}
 
-	/**	
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Teste si cette piece est vide.
 	 * 
 	 * 	@return			boolean : 'false' si un objet present, 'true' sinon
 	 */
 	public boolean objetsEstVide ()
 	{
-		for ( ObjetZork objet : this.objets )
-			if ( objet != null ) return false;
-		
-		return true;
+		return ( this.objets.isEmpty () );
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Renvoie l'indice du premier emplacement vide de cette piece.
 	 * 
 	 * 	@return			int : -1 si objets plein
 	 */
 	public int objetsIndicePremierNull ()
 	{
-		for ( int indice = 0; indice < this.objets.length; indice ++ )
-			if ( this.objets [indice] == null ) return indice;
-		
-		return -1;
+		return ( ! this.objetsEstPlein () ) ? ( this.objets.size () ) : (-1);
 	}
 
     					/* -------------------------------------------- */
@@ -270,27 +278,27 @@ public class Piece
         return ( this.sorties.get (direction) );
     }
 
-	/**									<p> AJOUT !!! </p>
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Ajoute l'objet specifie dans cette piece a l'endroit specifie.
 	 * 
 	 * 	@param indice		(int)
 	 * 	@param objet		(ObjetZork)
 	 */
-	public void ajouterObjet (int indice, ObjetZork objet)
+	public void ajouterObjet (ObjetZork objet)
 	{
-		this.objets [indice] = objet;
+		this.objets.add (objet);
 
 		return;
 	}
 
-	/**									<p> AJOUT !!! </p>
+	/**									<p> MODIFICATION !!! </p>
 	 * 	Retire l'objet situe a l'endroit specifiee de cette piece.
 	 * 
 	 * 	@param indice		(int)
 	 */
 	public void retirerObjet (int indice)
 	{
-		this.objets [indice] = null;
+		this.objets.remove (indice);
 
 		return;
 	}

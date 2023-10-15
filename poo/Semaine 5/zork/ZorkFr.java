@@ -1,7 +1,7 @@
 //	Semaine_4 ; Semaine_5
 
 
-/**										<p> MODIFICATION !!! </p>
+/**	
  *  Classe contenant le main du projet Zork.
  * 
  * 	<p> Elle initialise un joueur puis lance le jeu "Zork". </p>
