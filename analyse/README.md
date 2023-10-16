@@ -2,6 +2,6 @@
 
 Les différents trucs d'Analyse
 
-## Fichiers presents :
+## Fichiers presents :
 - Feuille 2 : Intégrales impropres
 
