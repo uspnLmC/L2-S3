@@ -83,16 +83,16 @@ public class ObjetZork
 	 * 	
 	 * 	@return			boolean : 'true' si ce sont les memes, 'false' sinon
 	 */
-	public boolean equals (ObjetZork objet)
+	public boolean equals (Object o)
 	{
-		if ( this == objet )                                   return true;
+		if ( o == null )                                       return false;
+		if ( this == o )                                       return true;
+
+		ObjetZork objet = (ObjetZork) o;
 
 		if ( ! this.nom.equals ( objet.nom ) )                 return false;
-
 		if ( ! this.description.equals ( objet.description ) ) return false;
-
 		if ( this.poids != objet.poids )                       return false;
-
 		if ( this.estTransportable == objet.estTransportable ) return false;
 
 		return true;
